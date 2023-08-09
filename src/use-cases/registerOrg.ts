@@ -1,5 +1,6 @@
 import { OrgsRepository } from '@/repositories/orgs-repository'
 import { hash } from 'bcryptjs'
+import { OrgalreadyExistsError } from './errors/org-already-exists-error'
 
 interface RegisterOrgUseCaseRequest {
   name: string
@@ -24,7 +25,7 @@ export class RegisterOrgUseCase {
     const orgWithSameEmail = await this.orgsRepository.findByEmail(email)
 
     if (orgWithSameEmail) {
-      throw new Error('E-mail already exists')
+      throw new OrgalreadyExistsError()
     }
 
     await this.orgsRepository.create({

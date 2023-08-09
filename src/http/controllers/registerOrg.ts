@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { RegisterOrgUseCase } from '@/use-cases/registerOrg'
 import { PrismaOrgsRepository } from '@/repositories/prisma/prisma-orgs-repository'
+import { OrgalreadyExistsError } from '@/use-cases/errors/org-already-exists-error'
 
 export async function registerOrg(
   request: FastifyRequest,
@@ -30,7 +31,10 @@ export async function registerOrg(
       whatsappNumber,
     })
   } catch (error) {
-    return reply.status(409).send()
+    if (error instanceof OrgalreadyExistsError) {
+      return reply.status(409).send({ message: error.message })
+    }
+    throw error
   }
 
   return reply.status(201).send()
