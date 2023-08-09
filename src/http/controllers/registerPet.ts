@@ -2,7 +2,10 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
-export async function register(request: FastifyRequest, reply: FastifyReply) {
+export async function registerPet(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const registerBodySchema = z.object({
     name: z.string(),
     breed: z.string(),
@@ -13,7 +16,6 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     description: z.string(),
   })
 
-  // eslint-disable-next-line camelcase
   const { name, breed, age, energy_level, independence, size, description } =
     registerBodySchema.parse(request.body)
 
@@ -22,7 +24,6 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       name,
       breed,
       age,
-      // eslint-disable-next-line camelcase
       energy_level,
       independence,
       size,
