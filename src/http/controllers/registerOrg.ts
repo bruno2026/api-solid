@@ -10,8 +10,8 @@ export async function registerOrg(
 ) {
   const registerOrgBodySchema = z.object({
     name: z.string(),
-    address: z.string(),
-    whatsappNumber: z.string(),
+    address: z.string().nonempty(),
+    whatsappNumber: z.string().nonempty(),
     email: z.string().email(),
     password: z.string().min(6),
   })
