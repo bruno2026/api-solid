@@ -10,14 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model City {
-  id   String @id @default(uuid())
-  name String
-  Pet  Pet[]
-
-  @@map("cities")
-}
-
 model Org {
   id             String @id @default(uuid())
   name           String
@@ -40,10 +32,9 @@ model Pet {
   independence IndependenceLevel
   size         AnimalSize
   description  String
-  cityId       String?
+  city         String
 
   org   Org?    @relation(fields: [orgId], references: [id])
-  city  City?   @relation(fields: [cityId], references: [id])
   orgId String?
 
   @@map("pets")
