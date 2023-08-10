@@ -1,15 +1,18 @@
-import { expect, describe, it } from 'vitest'
+import { expect, describe, it, beforeEach } from 'vitest'
 import { RegisterOrgUseCase } from './registerOrg'
 import { compare } from 'bcryptjs'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
-import { string } from 'zod'
+
+let orgsRepository: InMemoryOrgsRepository
+let sut: RegisterOrgUseCase
 
 describe('RegisterOrg Use Case', () => {
+  beforeEach(() => {
+    orgsRepository = new InMemoryOrgsRepository()
+    sut = new RegisterOrgUseCase(orgsRepository)
+  })
   it('User passwords should be hashed upon registration.', async () => {
-    const orgsRepository = new InMemoryOrgsRepository()
-    const registerOrgUseCase = new RegisterOrgUseCase(orgsRepository)
-
-    const { org } = await registerOrgUseCase.execute({
+    const { org } = await sut.execute({
       name: 'teste',
       address: 'endereco teste',
       email: 'teste@teste.com',
@@ -23,10 +26,7 @@ describe('RegisterOrg Use Case', () => {
   })
 
   it('should be able register org', async () => {
-    const orgsRepository = new InMemoryOrgsRepository()
-    const registerOrgUseCase = new RegisterOrgUseCase(orgsRepository)
-
-    const { org } = await registerOrgUseCase.execute({
+    const { org } = await sut.execute({
       name: 'teste',
       address: 'endereco teste',
       email: 'teste@teste.com',
