@@ -25,4 +25,63 @@ describe('RegisterOrg Use Case', () => {
 
     expect(pet.id).toEqual(expect.any(String))
   })
+  it('Should be able to find all the pets the in a city.', async () => {
+    const city = 'jandira'
+    await sut.execute({
+      name: 'pet teste',
+      breed: 'teste',
+      age: 2,
+      energy_level: 5,
+      independence: 'LOW',
+      size: 'SMALL',
+      description: 'descricao teste',
+      city: 'jandira',
+      orgId: 'org-1',
+    })
+
+    const pets = await petsRepository.findPetByCity(city)
+
+    expect(Array.isArray(pets)).toBe(true)
+  })
+  it('Should be able to find all the pets based on their Characteristics.', async () => {
+    const age = 3
+    const energy_level = 5
+    const independence = 'LOW'
+    const size = 'SMALL'
+
+    await sut.execute({
+      name: 'pet teste',
+      breed: 'teste',
+      age: 2,
+      energy_level: 5,
+      independence: 'LOW',
+      size: 'SMALL',
+      description: 'descricao teste',
+      city: 'jandira',
+      orgId: 'org-1',
+    })
+
+    await sut.execute({
+      name: 'pet teste2',
+      breed: 'teste',
+      age: 3,
+      energy_level: 5,
+      independence: 'LOW',
+      size: 'SMALL',
+      description: 'descricao teste',
+      city: 'jandira',
+      orgId: 'org-1',
+    })
+
+    const pets = await petsRepository.findPetsByCharacteristics(
+      age,
+      energy_level,
+      independence,
+      size,
+    )
+
+    console.log(pets)
+
+    expect(Array.isArray(pets)).toBe(true)
+  })
 })
