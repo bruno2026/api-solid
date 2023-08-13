@@ -1,5 +1,6 @@
 import { Pet, Prisma } from '@prisma/client'
 import { PetsRepository } from '../pets-repository'
+import { randomUUID } from 'node:crypto'
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = []
@@ -8,40 +9,38 @@ export class InMemoryPetsRepository implements PetsRepository {
     return this.items.filter((pet) => pet.city === city)
   }
 
+  async findPetById(id: string): Promise<Pet | null> {
+    const pet = this.items.find((item) => item.id === id)
+
+    return pet || null
+  }
+
   async findPetsByCharacteristics(
-    age?: number,
-    energy_level?: number,
-    independence?: string,
-    size?: string,
-  ) {
-    const filteredPets = this.items.filter((pet) => {
-      let matches = true
-
-      if (age && pet.age !== age) {
-        matches = false
-      }
-
-      if (energy_level && pet.energy_level !== energy_level) {
-        matches = false
-      }
-
-      if (independence && pet.independence !== independence) {
-        matches = false
-      }
-
-      if (size && pet.size !== size) {
-        matches = false
-      }
-
-      return matches
-    })
+    ...characteristics: Array<{ key: string; value: unknown }>
+  ): Promise<Pet[]> {
+    const filteredPets = this.items.filter((pet) =>
+      characteristics.every(({ key, value }) => {
+        switch (key) {
+          case 'age':
+            return !value || pet.age === value
+          case 'energy_level':
+            return !value || pet.energy_level === value
+          case 'size':
+            return !value || pet.size === value
+          case 'independence':
+            return !value || pet.independence === value
+          default:
+            return true
+        }
+      }),
+    )
 
     return filteredPets
   }
 
   async create(data: Prisma.PetUncheckedCreateInput) {
     const pet = {
-      id: 'pet-1',
+      id: randomUUID(),
       name: data.name,
       breed: data.breed,
       age: data.age,

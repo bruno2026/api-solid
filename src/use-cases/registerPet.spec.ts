@@ -44,17 +44,24 @@ describe('RegisterOrg Use Case', () => {
     expect(Array.isArray(pets)).toBe(true)
   })
   it('Should be able to find all the pets based on their Characteristics.', async () => {
-    const age = 3
-    const energy_level = 5
-    const independence = 'LOW'
-    const size = 'SMALL'
-
     await sut.execute({
       name: 'pet teste',
       breed: 'teste',
       age: 2,
       energy_level: 5,
       independence: 'LOW',
+      size: 'SMALL',
+      description: 'descricao teste',
+      city: 'jandira',
+      orgId: 'org-1',
+    })
+
+    await sut.execute({
+      name: 'pet teste3',
+      breed: 'teste',
+      age: 3,
+      energy_level: 5,
+      independence: 'MEDIUM',
       size: 'SMALL',
       description: 'descricao teste',
       city: 'jandira',
@@ -73,15 +80,34 @@ describe('RegisterOrg Use Case', () => {
       orgId: 'org-1',
     })
 
-    const pets = await petsRepository.findPetsByCharacteristics(
-      age,
-      energy_level,
-      independence,
-      size,
+    const filteredPets = await petsRepository.findPetsByCharacteristics(
+      {
+        key: 'age',
+        value: 3,
+      },
+      {
+        key: 'independence',
+        value: 'LOW',
+      },
     )
+    expect(Array.isArray(filteredPets)).toBe(true)
+  })
 
-    console.log(pets)
-
-    expect(Array.isArray(pets)).toBe(true)
+  it('Should be able to visualize details about a pet.', async () => {
+    const id = '2881d8a0-3891-11ee-be56-0242ac120002'
+    petsRepository.items.push({
+      id: '2881d8a0-3891-11ee-be56-0242ac120002',
+      name: 'pet teste',
+      breed: 'teste',
+      age: 2,
+      energy_level: 5,
+      independence: 'LOW',
+      size: 'SMALL',
+      description: 'descricao teste',
+      city: 'jandira',
+      orgId: 'org-1',
+    })
+    const pet = await petsRepository.findPetById(id)
+    expect(pet).toBe(pet)
   })
 })

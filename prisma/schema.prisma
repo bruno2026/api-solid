@@ -11,14 +11,14 @@ datasource db {
 }
 
 model Org {
-  id             String @id @default(uuid())
+  id             String  @id @default(uuid())
   name           String
   address        String
   whatsappNumber String
-  email          String @unique
+  email          String  @unique
   password_hash  String
-
-  pets Pet[]
+  isAdmin        Boolean @default(false)
+  pets           Pet[]
 
   @@map("orgs")
 }
