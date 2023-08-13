@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { makeRegisterPetUseCase } from '@/use-cases/factories/make-registerPet-use-case'
+import { PetalreadyExistsError } from '@/use-cases/errors/pet-already-exists-error'
 
 export async function registerPet(
   request: FastifyRequest,
@@ -28,18 +29,25 @@ export async function registerPet(
     description,
   } = registerBodySchema.parse(request.body)
 
-  await prisma.pet.create({
-    data: {
+  try {
+    const registerPetUseCase = makeRegisterPetUseCase()
+
+    await registerPetUseCase.execute({
       name,
       breed,
-      city,
       age,
+      city,
       energy_level,
       independence,
       size,
       description,
-    },
-  })
+    })
+  } catch (error) {
+    if (error instanceof PetalreadyExistsError) {
+      return reply.status(409).send({ message: error.message })
+    }
+    throw error
+  }
 
   return reply.status(201).send()
 }

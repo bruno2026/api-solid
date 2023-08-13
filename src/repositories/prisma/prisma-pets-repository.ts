@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { AnimalSize, IndependenceLevel, Pet, Prisma } from '@prisma/client'
 import { PetsRepository } from '../pets-repository'
+import { PetalreadyExistsError } from '@/use-cases/errors/pet-already-exists-error'
 
 export class PrismaPetsRepository implements PetsRepository {
   async findPetsByCharacteristics(
@@ -53,6 +54,21 @@ export class PrismaPetsRepository implements PetsRepository {
   }
 
   async create(data: Prisma.PetUncheckedCreateInput) {
+    const existingPet = await prisma.pet.findFirst({
+      where: {
+        name: data.name,
+        breed: data.breed,
+        age: data.age,
+        energy_level: data.energy_level,
+        independence: data.independence,
+        size: data.size,
+        city: data.city,
+      },
+    })
+
+    if (existingPet) {
+      throw new PetalreadyExistsError()
+    }
     const pet = await prisma.pet.create({
       data,
     })
