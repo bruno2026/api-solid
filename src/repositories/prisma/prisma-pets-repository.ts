@@ -5,24 +5,28 @@ import { PetalreadyExistsError } from '@/use-cases/errors/pet-already-exists-err
 
 export class PrismaPetsRepository implements PetsRepository {
   async findPetsByCharacteristics(
-    ...characteristics: Array<{ key: string; value: unknown }>
+    age?: number,
+    energy_level?: number,
+    size?: AnimalSize,
+    independence?: IndependenceLevel,
   ): Promise<Pet[]> {
-    const prismaFilters: Prisma.PetWhereInput[] = characteristics.map(
-      ({ key, value }) => {
-        switch (key) {
-          case 'age':
-            return { age: value as number }
-          case 'energy_level':
-            return { energy_level: value as number }
-          case 'size':
-            return { size: value as AnimalSize }
-          case 'independence':
-            return { independence: value as IndependenceLevel }
-          default:
-            return {} // Ignorar chaves desconhecidas
-        }
-      },
-    )
+    const prismaFilters: Prisma.PetWhereInput[] = []
+
+    if (age !== undefined) {
+      prismaFilters.push({ age })
+    }
+
+    if (energy_level !== undefined) {
+      prismaFilters.push({ energy_level })
+    }
+
+    if (size !== undefined) {
+      prismaFilters.push({ size })
+    }
+
+    if (independence !== undefined) {
+      prismaFilters.push({ independence })
+    }
 
     const filteredPets = await prisma.pet.findMany({
       where: {

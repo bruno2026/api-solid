@@ -80,15 +80,14 @@ describe('RegisterOrg Use Case', () => {
       orgId: 'org-1',
     })
 
+    const characteristics = {
+      age: 3,
+      energy_level: 5,
+    }
+
     const filteredPets = await petsRepository.findPetsByCharacteristics(
-      {
-        key: 'age',
-        value: 3,
-      },
-      {
-        key: 'independence',
-        value: 'LOW',
-      },
+      characteristics.age,
+      characteristics.energy_level,
     )
     expect(Array.isArray(filteredPets)).toBe(true)
   })

@@ -16,23 +16,17 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   async findPetsByCharacteristics(
-    ...characteristics: Array<{ key: string; value: unknown }>
+    age?: number,
+    energy_level?: number,
+    size?: string,
+    independence?: string,
   ): Promise<Pet[]> {
-    const filteredPets = this.items.filter((pet) =>
-      characteristics.every(({ key, value }) => {
-        switch (key) {
-          case 'age':
-            return !value || pet.age === value
-          case 'energy_level':
-            return !value || pet.energy_level === value
-          case 'size':
-            return !value || pet.size === value
-          case 'independence':
-            return !value || pet.independence === value
-          default:
-            return true
-        }
-      }),
+    const filteredPets = this.items.filter(
+      (pet) =>
+        (!age || pet.age === age) &&
+        (!energy_level || pet.energy_level === energy_level) &&
+        (!size || pet.size === size) &&
+        (!independence || pet.independence === independence),
     )
 
     return filteredPets
