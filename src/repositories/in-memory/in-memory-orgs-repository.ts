@@ -30,6 +30,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
       id: randomUUID(),
       name: data.name,
       address: data.address,
+      cep: data.cep,
       whatsappNumber: data.whatsappNumber,
       email: data.email,
       password_hash: data.password_hash,

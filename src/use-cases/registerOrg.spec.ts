@@ -16,6 +16,7 @@ describe('RegisterOrg Use Case', () => {
     const { org } = await sut.execute({
       name: 'teste',
       address: 'endereco teste',
+      cep: '06680103',
       email: 'teste@teste.com',
       password: '123456',
       whatsappNumber: '11999999999',
@@ -30,6 +31,7 @@ describe('RegisterOrg Use Case', () => {
     const { org } = await sut.execute({
       name: 'teste',
       address: 'endereco teste',
+      cep: '06680103',
       email: 'teste@teste.com',
       password: '123456',
       whatsappNumber: '11999999999',
@@ -41,6 +43,7 @@ describe('RegisterOrg Use Case', () => {
     await sut.execute({
       name: 'teste',
       address: 'endereco teste',
+      cep: '06680103',
       email: 'teste@teste.com',
       password: '123456',
       whatsappNumber: '11999999999',
@@ -50,6 +53,7 @@ describe('RegisterOrg Use Case', () => {
       sut.execute({
         name: 'teste',
         address: 'endereco teste',
+        cep: '06680103',
         email: 'teste@teste.com',
         password: '123456',
         whatsappNumber: '11999999999',

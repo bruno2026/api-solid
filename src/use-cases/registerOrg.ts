@@ -5,9 +5,10 @@ import { Org } from '@prisma/client'
 
 interface RegisterOrgUseCaseRequest {
   name: string
+  email: string
+  cep: string
   address: string
   whatsappNumber: string
-  email: string
   password: string
 }
 
@@ -21,6 +22,7 @@ export class RegisterOrgUseCase {
   async execute({
     name,
     address,
+    cep,
     whatsappNumber,
     email,
     password,
@@ -36,6 +38,7 @@ export class RegisterOrgUseCase {
     const org = await this.orgsRepository.create({
       name,
       address,
+      cep,
       whatsappNumber,
       email,
       password_hash,

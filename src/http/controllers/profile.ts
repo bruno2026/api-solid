@@ -1,4 +1,4 @@
-import { makeGetOrgAdminPRofileUseCase } from '@/use-cases/factories/make-get-org-admin-profile'
+import { makeGetOrgAdminPRofileUseCase } from '@/use-cases/factories/make-get-org-admin-profile-use-case'
 import { FastifyRequest, FastifyReply } from 'fastify'
 
 export async function profile(request: FastifyRequest, reply: FastifyReply) {

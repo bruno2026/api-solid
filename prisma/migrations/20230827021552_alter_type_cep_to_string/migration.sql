@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "orgs" ALTER COLUMN "cep" SET DATA TYPE TEXT;
