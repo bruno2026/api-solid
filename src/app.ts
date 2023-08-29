@@ -22,7 +22,7 @@ app.setErrorHandler((error, _request, reply) => {
   if (env.NODE_ENV === 'production') {
     console.log(error)
   } else {
-    // TODO: no futuro logar os erros em alguma ferramenta tipo DataDog/Newrelic ou alguma semelhante
+    // TODO: no futuro logar os erros em alguma ferramenta
   }
   return reply.status(500).send({ message: 'Internal server error' })
 })

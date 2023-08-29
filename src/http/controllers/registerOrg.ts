@@ -10,12 +10,13 @@ export async function registerOrg(
   const registerOrgBodySchema = z.object({
     name: z.string(),
     address: z.string().nonempty(),
+    cep: z.string(),
     whatsappNumber: z.string().nonempty(),
     email: z.string().email(),
     password: z.string().min(6),
   })
 
-  const { name, address, whatsappNumber, email, password } =
+  const { name, address, cep, whatsappNumber, email, password } =
     registerOrgBodySchema.parse(request.body)
 
   try {
@@ -25,6 +26,7 @@ export async function registerOrg(
       name,
       email,
       password,
+      cep,
       address,
       whatsappNumber,
     })

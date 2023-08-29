@@ -16,6 +16,7 @@ describe('Authenticate Use Case', () => {
     await orgsRepository.create({
       name: 'ORG TESTE',
       email: 'teste@teste.com',
+      cep: '06680103',
       password_hash: await hash('123456', 6),
       address: 'endereco teste',
       whatsappNumber: '99999999999',
@@ -42,6 +43,7 @@ describe('Authenticate Use Case', () => {
     await orgsRepository.create({
       name: 'ORG TESTE',
       email: 'teste@teste.com',
+      cep: '06680103',
       password_hash: await hash('123456', 6),
       address: 'endereco teste',
       whatsappNumber: '99999999999',
