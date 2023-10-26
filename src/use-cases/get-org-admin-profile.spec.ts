@@ -17,6 +17,7 @@ describe('Get admin Profile', () => {
       id: '2881d8a0-3891-11ee-be56-0242ac120002',
       address: 'teste',
       email: 'email@teste',
+      cep: '123456',
       name: 'teste',
       password_hash: '123456',
       whatsappNumber: '999999999',
@@ -32,6 +33,7 @@ describe('Get admin Profile', () => {
     orgsRepository.items.push({
       id: '2881d8a0-3891-11ee-be56-0242ac120002',
       address: 'teste',
+      cep: '123456',
       email: 'email@teste',
       name: 'teste',
       password_hash: '123456',
